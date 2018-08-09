@@ -8,7 +8,7 @@ public class BallPlacer : MonoBehaviour {
     private float[] xs;
 	private float[] ys;
 	private float[] zs;
-    private float[] uids;
+    private string[] uids;
     List<Transform> plottedPoints;
 
 	// Use this for initialization
@@ -20,6 +20,7 @@ public class BallPlacer : MonoBehaviour {
         xs = new float[500];
         ys = new float[500];
         zs = new float[500];
+        uids = new string[500];
         plottedPoints = new List<Transform> ();
         ReadFile();
 		PlotPoints ();
@@ -27,14 +28,19 @@ public class BallPlacer : MonoBehaviour {
 
     void ReadFile() {
         string[] lines = textFile.text.Split("\n"[0]);
-        Debug.Log(lines[0]);
-        for (int i = 1; i < lines.length; i++) {
+        
+        for (int i = 1; i < lines.Length; i++) {
+            Debug.Log(lines[i]);
             string[] numbers = lines[i].Split(","[0]);
-            uids = numbers[0];
-            //xs
-            xs[i - 1] = float.TryParse(numbers[1]);
-            ys[i - 1] = float.TryParse(numbers[2]);
-            zs[i - 1] = float.TryParse(numbers[3]);
+            if (numbers.Length > 3) {
+              Debug.Log(numbers[0] + " " + numbers[1] + " " + numbers[2]);
+              uids[i - 1] = numbers[0];
+              //xs
+              bool res = float.TryParse(numbers[1], out xs[i - 1]);
+
+              res = float.TryParse(numbers[2], out ys[i - 1]);
+              res = float.TryParse(numbers[3], out zs[i - 1]);
+            }
         }
     }
 
